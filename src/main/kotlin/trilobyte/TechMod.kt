@@ -19,47 +19,43 @@ import thedarkcolour.kotlinforforge.neoforge.forge.runForDist
  *
  * An example for blocks is in the `blocks` package of this mod.
  */
-@Mod(techmod.ID)
+@Mod(TechMod.ID)
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
-object techmod {
+object TechMod {
     const val ID = "techmod"
 
-    // the logger for our mod
+    // the logger for the mod
     val LOGGER: Logger = LogManager.getLogger(ID)
 
     init {
-        LOGGER.log(Level.INFO, "Hello world!")
+        LOGGER.log(Level.INFO, "Main system: activating automation mode")
 
         // Register the KDeferredRegister to the mod-specific event bus
         ModBlocks.REGISTRY.register(MOD_BUS)
+        ModBlocks.BLOCKS.register(MOD_BUS)
 
-        val obj = runForDist(clientTarget = {
-            MOD_BUS.addListener(::onClientSetup)
-            Minecraft.getInstance()
-        }, serverTarget = {
-            MOD_BUS.addListener(::onServerSetup)
-            "test"
-        })
-
-        println(obj)
+        runForDist(
+            clientTarget = {
+                MOD_BUS.addListener(::onClientSetup)
+                Minecraft.getInstance()
+            },
+            serverTarget = {
+                MOD_BUS.addListener(::onServerSetup)
+            }
+        )
     }
 
-    /**
-     * This is used for initializing client specific
-     * things such as renderers and keymaps
-     * Fired on the mod specific event bus.
-     */
+    @Suppress("unused")
     private fun onClientSetup(event: FMLClientSetupEvent) {
         LOGGER.log(Level.INFO, "Initializing client...")
     }
 
-    /**
-     * Fired on the global Forge bus.
-     */
+    @Suppress("unused")
     private fun onServerSetup(event: FMLDedicatedServerSetupEvent) {
         LOGGER.log(Level.INFO, "Server starting...")
     }
 
+    @Suppress("unused")
     @SubscribeEvent
     fun onCommonSetup(event: FMLCommonSetupEvent) {
         LOGGER.log(Level.INFO, "Hello! This is working!")

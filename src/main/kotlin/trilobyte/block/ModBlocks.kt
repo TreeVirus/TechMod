@@ -1,18 +1,41 @@
 package trilobyte.block
 
-import trilobyte.techmod
+import net.minecraft.world.item.DyeColor
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.block.state.BlockState
+import net.neoforged.neoforge.registries.DeferredBlock
 import net.neoforged.neoforge.registries.DeferredRegister
+import trilobyte.TechMod
+import java.util.function.Supplier
+import java.util.function.ToIntFunction
 
-// THIS LINE IS REQUIRED FOR USING PROPERTY DELEGATES
-import thedarkcolour.kotlinforforge.neoforge.forge.getValue
 
 object ModBlocks {
-    val REGISTRY = DeferredRegister.createBlocks(techmod.ID)
+    val REGISTRY: DeferredRegister.Blocks = DeferredRegister.createBlocks(TechMod.ID)
+    val BLOCKS: DeferredRegister.Blocks = DeferredRegister.createBlocks(TechMod.ID)
 
-    // If you get an "overload resolution ambiguity" error, include the arrow at the start of the closure.
-    val EXAMPLE_BLOCK by REGISTRY.register("example_block") { ->
-        Block(BlockBehaviour.Properties.of().lightLevel { 15 }.strength(3.0f))
+    val CONCRETE = arrayListOf<DeferredBlock<Block>>()
+
+    val CONCRETE_BLOCK: DeferredBlock<Block?> = BLOCKS.register<Block?>(
+        "concrete",
+        Supplier {
+            Block(
+                BlockBehaviour.Properties.of()
+                    .destroyTime(5.0f)
+                    .explosionResistance(72.0f)
+            )
+        })
+
+    private val DEFAULT_CONCRETE = BlockBehaviour.Properties.of()
+        .destroyTime(5.0f)
+        .explosionResistance(72.0f)
+
+    init {
+        for (color in DyeColor.entries) {
+            CONCRETE.add(REGISTRY.register("${color.serializedName}_concrete") { ->
+                Block(DEFAULT_CONCRETE)
+            })
+        }
     }
 }
