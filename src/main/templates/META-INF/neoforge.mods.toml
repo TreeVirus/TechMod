@@ -1,0 +1,42 @@
+# This information stuff (how the fuck are you supposed to comment things again)
+modLoader = "kotlinforforge"
+loaderVersion = "${loader_version_range}"
+
+license = "${mod_license}"
+
+# issueTrackerURL =
+
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+# displayURL=""
+# A file name (in the root of the mod JAR) containing a logo for display
+#logoFile="techmod.png" #optional
+credits="Divine Ray, Sinsinwave"
+authors = "TreeVirus"
+description = '''awawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawawa'''
+
+# NeoForge dependency
+[[dependencies."${mod_id}"]]
+modId = "neoforge"
+type = "required"
+versionRange = "${neo_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+# Minecraft dependency
+[[dependencies."${mod_id}"]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+# Kotlin dependency
+[[dependencies."${mod_id}"]]
+modId = "kotlinforforge"
+type = "required"
+versionRange = "[5.4,)"
+ordering = "NONE"
+side = "BOTH"
